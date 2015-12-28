@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Simple modal dialog</title>
   <style>
-  #bluz-overlay {
+  #flex-overlay {
     position: fixed;
     z-index:100;
     top: 0px;
@@ -32,14 +32,14 @@
   </div>
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
-  <script src="js/bluz.modal.js" charset="utf-8"></script>
+  <script src="../flex.modal.js" charset="utf-8"></script>
 
   <script>
   $(document).ready(function(){
     // $('#show-modal').click(function(){
-    //   $('#popup').bluzModal();
+    //   $('#popup').flexModal();
     // });
-    $('[data-toggle]').bluzBindModal();
+    $('[data-toggle]').flexBindModal();
   });
   function click(e){
     alert('click');

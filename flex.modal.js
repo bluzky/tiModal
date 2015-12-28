@@ -1,14 +1,14 @@
 (function($) {
 
   // create overlay element
-  var overlay = $("<div id='bluz-overlay'></div>");
+  var overlay = $("<div id='flex-overlay'></div>");
   $("body").append(overlay);
 
   /*
     Hide the modal dialog
    */
   function closeModal(modal) {
-    $("#bluz-overlay").css({
+    $("#flex-overlay").css({
       'display': 'none',
       opacity: 0
     });
@@ -29,7 +29,7 @@
     clickOutClose: true,
   };
 
-  $.fn.bluzModal = function(options) {
+  $.fn.flexModal = function(options) {
       options = $.extend(defaultOptions, options);
 
       var self = this;
@@ -48,8 +48,8 @@
       });
 
       // bind click even on overlay
-      $('#bluz-overlay').off();
-      $('#bluz-overlay').on('click', function(e){
+      $('#flex-overlay').off();
+      $('#flex-overlay').on('click', function(e){
         closeModal(self);
       });
 
@@ -59,11 +59,11 @@
       var modal_width = this.outerWidth();
 
       // show overlay with animation
-      $("#bluz-overlay").css({
+      $("#flex-overlay").css({
         "display": "block",
         opacity: 0
       });
-      $("#bluz-overlay").fadeTo(200, o.overlay);
+      $("#flex-overlay").fadeTo(200, o.overlay);
 
       this.css({
         "display": "block",
@@ -77,7 +77,7 @@
       this.fadeTo(200, 1);
     };
 
-    $.fn.bluzBindModal = function(options) {
+    $.fn.flexBindModal = function(options) {
       options = $.extend(defaultOptions, options);
 
       return this.each(function() {
@@ -89,8 +89,8 @@
           var modal = $(modalId);
 
           // bind click even on overlay
-          $('#bluz-overlay').off();
-          $('#bluz-overlay').on('click', function(e){
+          $('#flex-overlay').off();
+          $('#flex-overlay').on('click', function(e){
             closeModal(modalId);
           });
 
@@ -115,12 +115,12 @@
           var modal_width = modal.outerWidth();
 
           // show overlay with animation
-          $("#bluz-overlay").css({
+          $("#flex-overlay").css({
             "display": "block",
             opacity: 0
           });
 
-          $("#bluz-overlay").fadeTo(200, o.overlay);
+          $("#flex-overlay").fadeTo(200, o.overlay);
 
           modal.css({
             "display": "block",
