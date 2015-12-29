@@ -9,9 +9,13 @@
 
 (function($) {
 
-  // create overlay element
-  var overlay = $("<div id='flex-overlay'></div>");
-  $("body").append(overlay);
+  function ensureInit(){
+    if($('#flex-overlay').length == 0){
+      // create overlay element
+      var overlay = $("<div id='flex-overlay'></div>");
+      $("body").append(overlay);
+    }
+  }
 
   /*
     Hide the modal dialog
@@ -39,6 +43,7 @@
   };
 
   $.fn.flexModal = function(options) {
+      ensureInit();
       options = $.extend(defaultOptions, options);
 
       var self = this;
@@ -81,12 +86,14 @@
         "z-index": 1000,
         "left": o.left,
         "margin-left": -(modal_width / 2) + "px",
-        "top": o.top
+        "top": o.top,
+        "margin-top": -(modal_height / 2) + "px"
       });
       this.fadeTo(200, 1);
     };
 
     $.fn.flexBindModal = function(options) {
+      ensureInit();
       options = $.extend(defaultOptions, options);
 
       return this.each(function() {
@@ -138,7 +145,8 @@
             "z-index": 1000,
             "left": o.left,
             "margin-left": -(modal_width / 2) + "px",
-            "top": o.top
+            "top": o.top,
+            "margin-top": -(modal_height / 2) + "px"
           });
 
           modal.fadeTo(200, 1);
