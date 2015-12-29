@@ -1,3 +1,12 @@
+/*
+* module: flexModal
+* version: 0.1
+* author: dzung nguyen
+* email: bluesky.1289@gmail.com
+* 
+* License: WTFGL
+*/
+
 (function($) {
 
   // create overlay element
