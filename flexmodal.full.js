@@ -8,12 +8,23 @@
  */
 
 (function($) {
+
+  /*
+  @align : default [center] : option to calculat position of dialog. it could be one of these
+                  value : left, right, top, bottom, center, top-left, top-right, bottom-left, bottom-right
+  top: "50%",     // top postion of modal dialog
+  left: "50%",    // left postion of modal dialog
+  overlay: 0.5,   // transparent value for overlay layer
+  events: {},     // events map for binding within dialog content
+  modal: false,   // show as a modal dialog ( does not close when click outside of dialog)
+   */
   var defaultOptions = {
-    top: "50%", // top postion of modal dialog. this is position of center of dialog
-    left: "50%", // left postion of modal dialog. this is position of center of dialog
-    overlay: 0.5, // transparent value for overlay layer
-    events: {}, // events map for binding within dialog content
-    modal: false, // show as a modal dialog ( does not close when click outside of dialog)
+    align: "center",
+    x_offset: "0",
+    y_offset: "0",
+    overlay: 0.5,
+    events: {},
+    modal: false,
   };
 
   function ensureInit() {
@@ -22,6 +33,52 @@
       var overlay = $("<div id='flex-overlay'></div>");
       $("body").append(overlay);
     }
+  }
+
+  /*
+    Logic for setting CSS property base on align option
+   */
+  function calculatePostionCss(modal, options) {
+
+    var modal_height = modal.outerHeight();
+    var modal_width = modal.outerWidth();
+
+    // calculate position
+    var position = {};
+    switch (options.align) {
+      case "center":
+        position["top"] = "50%";
+        position["left"] = "50%";
+        position["margin-left"] = (options.x_offset - modal_width / 2) + "px";
+        position["margin-top"] = (options.y_offset - modal_height / 2) + "px";
+        break;
+      case "top":
+        position["top"] = 0;
+        position["left"] = "50%";
+        position["margin-left"] = (options.x_offset - modal_width / 2) + "px";
+        position["margin-top"] = options.y_offset + "px";
+        break;
+      case "left":
+        position["top"] = "50%";
+        position["left"] = 0;
+        position["margin-top"] = (options.y_offset - modal_height / 2) + "px";
+        position["margin-left"] = options.x_offset + "px";
+        break;
+      case "bottom":
+        position["bottom"] = 0;
+        position["left"] = "50%";
+        position["margin-left"] = (options.x_offset - modal_width / 2) + "px";
+        position["margin-bottom"] = options.y_offset + "px";
+        break;
+      case "right":
+        position["top"] = "50%";
+        position["right"] = 0;
+        position["margin-top"] = (options.y_offset - modal_height / 2) + "px";
+        position["margin-right"] = options.x_offset + "px";
+        break;
+    }
+
+    return position;
   }
 
   /*
@@ -41,6 +98,9 @@
     })
   }
 
+  /*
+
+   */
   function showModal(options) {
     var modal = this;
     // bind click even on overlay
@@ -51,10 +111,6 @@
       });
     }
 
-    // calculate position of dialog
-    var modal_height = this.outerHeight();
-    var modal_width = this.outerWidth();
-
     // show overlay with animation
     $("#flex-overlay").css({
       "display": "block",
@@ -62,16 +118,16 @@
     });
     $("#flex-overlay").fadeTo(200, options.overlay);
 
-    this.css({
+    var css = {
       "display": "block",
       "position": "fixed",
       "opacity": 0,
-      "z-index": 1000,
-      "left": options.left,
-      "margin-left": -(modal_width / 2) + "px",
-      "top": options.top,
-      "margin-top": -(modal_height / 2) + "px"
-    });
+      "z-index": 1000
+    };
+
+    css = $.extend(css, calculatePostionCss(this, options));
+    this.removeAttr('style'); // clear all current css
+    this.css(css);
     this.fadeTo(200, 1);
   }
 
@@ -82,7 +138,7 @@
    */
   $.fn.flexModal = function(options) {
     ensureInit();
-    options = $.extend(defaultOptions, options);
+    options = $.extend({}, defaultOptions, options);
 
     // map events
     // click .ok : handleOK
@@ -103,7 +159,7 @@
 
   $.fn.flexBindModal = function(options) {
     ensureInit();
-    options = $.extend(defaultOptions, options);
+    options = $.extend({}, defaultOptions, options);
 
     return this.each(function() {
       $(this).click(function(e) {
@@ -137,6 +193,7 @@
         showModal.call(modal, options);
         e.preventDefault();
       });
+
     });
   }
 })(jQuery);

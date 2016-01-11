@@ -24,6 +24,10 @@
 </head>
 <body>
   <button id="show-modal" data-toggle="#popup">Show modal</button>
+  <button id="top" data-toggle="#popup">top</button>
+  <button id="right" data-toggle="#popup">right</button>
+  <button id="bottom" data-toggle="#popup">bottom</button>
+  <button id="left" data-toggle="#popup">left</button>
   <div class="popup" id="popup">
     This is a simple dialog
     <button data-event="click" data-trigger="click">click</button>
@@ -31,14 +35,28 @@
   </div>
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
-  <script src="../flex.modal.js" charset="utf-8"></script>
+  <script src="../flexmodal.full.js" charset="utf-8"></script>
 
   <script>
   $(document).ready(function(){
-    // $('#show-modal').click(function(){
-    //   $('#popup').flexModal();
-    // });
-    $('[data-toggle]').flexBindModal();
+    $('#show-modal').click(function(){
+      $('#popup').flexModal();
+    });
+
+    $('#top').click(function(){
+      $('#popup').flexModal({align: "top", y_offset: 10});
+    });
+
+    $('#right').click(function(){
+      $('#popup').flexModal({align: "right", x_offset: 30});
+    });
+    $('#bottom').click(function(){
+      $('#popup').flexModal({align: "bottom"});
+    });
+    $('#left').click(function(){
+      $('#popup').flexModal({align: "left"});
+    });
+    //$('[data-toggle]').flexBindModal();
   });
   function click(e){
     alert('click');
