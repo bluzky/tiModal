@@ -19,6 +19,8 @@
     background-color: #fff;
     padding: 30px;
     display: none;
+    max-width: 600px;
+    max-height: 300px 
   }
   </style>
 </head>
@@ -30,8 +32,8 @@
   <button id="left" data-toggle="#popup">left</button>
   <div class="popup" id="popup">
     This is a simple dialog
-    <button data-event="click" data-trigger="click">click</button>
-    <button data-event="hover" data-trigger="click">clicks</button>
+    <button data-event="onClick" data-trigger="click" id="btn-ok">OK</button>
+    <button data-event="onCancel" data-trigger="click" id="btn-cancel">Cancel</button>
   </div>
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
@@ -44,26 +46,47 @@
     });
 
     $('#top').click(function(){
-      $('#popup').flexModal({align: "top", y_offset: 10});
+      $('#popup').flexModal({
+        align: "top",
+        y_offset: 10,
+        events: {
+          'click #btn-ok': onOk,
+          'click #btn-cancel': onCancel
+        }
+      });
     });
 
     $('#right').click(function(){
-      $('#popup').flexModal({align: "right", x_offset: 30});
+      $('#popup').flexModal({align: "right", x_offset: 30,
+      events: {
+        'click #btn-ok': onOk,
+        'click #btn-cancel': onCancel
+      }});
     });
+
     $('#bottom').click(function(){
-      $('#popup').flexModal({align: "bottom"});
+      $('#popup').flexModal({align: "bottom",
+      events: {
+        'click #btn-ok': onOk,
+        'click #btn-cancel': onCancel
+      }});
     });
+
     $('#left').click(function(){
-      $('#popup').flexModal({align: "left"});
+      $('#popup').flexModal({align: "left",
+      events: {
+        'click #btn-ok': onOk,
+        'click #btn-cancel': onCancel
+      }});
     });
     //$('[data-toggle]').flexBindModal();
   });
-  function click(e){
-    alert('click');
+  function onOk(e){
+    alert('You click OK');
   }
 
-  function hover(e){
-    alert('hover');
+  function onCancel(e){
+    alert('You click Cancel');
   }
   </script>
 </body>

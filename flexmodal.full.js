@@ -27,6 +27,10 @@
     modal: false,
   };
 
+  var currentModal = undefined;
+  var currentOptions = undefined;
+  var initialSize = undefined;
+
   function ensureInit() {
     if ($('#flex-overlay').length == 0) {
       // create overlay element
@@ -39,41 +43,65 @@
     Logic for setting CSS property base on align option
    */
   function calculatePostionCss(modal, options) {
+    var position = {
+      width: "",
+      height: ""
+    }
+    var width = modal.outerWidth();
+    var height = modal.outerHeight();
 
-    var modal_height = modal.outerHeight();
-    var modal_width = modal.outerWidth();
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
 
-    // calculate position
-    var position = {};
+    if(initialSize == undefined){
+      initialSize = {
+        width: width,
+        height: height
+      };
+    }
+
+    if(width > windowWidth - options.x_offset || width < initialSize.width){
+      width = windowWidth - options.x_offset ;
+      position.width = width + "px";
+    }
+
+    if(height > windowHeight - options.y_offset || height < initialSize.height){
+      height = windowHeight - options.y_offset;
+      position.height = height + "px";
+    }
+
+    var x_margin = ((options.x_offset - width) / 2) + "px";
+    var y_margin = ((options.y_offset - height) / 2) + "px";
+
     switch (options.align) {
       case "center":
         position["top"] = "50%";
         position["left"] = "50%";
-        position["margin-left"] = (options.x_offset - modal_width / 2) + "px";
-        position["margin-top"] = (options.y_offset - modal_height / 2) + "px";
+        position["margin-left"] = x_margin;
+        position["margin-top"] = y_margin;
         break;
       case "top":
         position["top"] = 0;
         position["left"] = "50%";
-        position["margin-left"] = (options.x_offset - modal_width / 2) + "px";
+        position["margin-left"] = x_margin;
         position["margin-top"] = options.y_offset + "px";
         break;
       case "left":
         position["top"] = "50%";
         position["left"] = 0;
-        position["margin-top"] = (options.y_offset - modal_height / 2) + "px";
+        position["margin-top"] = y_margin;
         position["margin-left"] = options.x_offset + "px";
         break;
       case "bottom":
         position["bottom"] = 0;
         position["left"] = "50%";
-        position["margin-left"] = (options.x_offset - modal_width / 2) + "px";
+        position["margin-left"] = x_margin;
         position["margin-bottom"] = options.y_offset + "px";
         break;
       case "right":
         position["top"] = "50%";
         position["right"] = 0;
-        position["margin-top"] = (options.y_offset - modal_height / 2) + "px";
+        position["margin-top"] = y_margin;
         position["margin-right"] = options.x_offset + "px";
         break;
     }
@@ -95,13 +123,17 @@
 
     modal.css({
       "display": "none"
-    })
+    });
+
+    // clear current modal data
+    currentModal = undefined;
+    currentOptions = undefined;
   }
 
   /*
 
    */
-  function showModal(options) {
+  function renderModal(options, update) {
     var modal = this;
     // bind click even on overlay
     $('#flex-overlay').off();
@@ -111,24 +143,33 @@
       });
     }
 
-    // show overlay with animation
-    $("#flex-overlay").css({
-      "display": "block",
-      opacity: 0
-    });
-    $("#flex-overlay").fadeTo(200, options.overlay);
-
     var css = {
       "display": "block",
       "position": "fixed",
-      "opacity": 0,
       "z-index": 1000
     };
 
     css = $.extend(css, calculatePostionCss(this, options));
     this.removeAttr('style'); // clear all current css
     this.css(css);
-    this.fadeTo(200, 1);
+
+    // show overlay with animation
+    if(update != true){
+      $("#flex-overlay").css({
+        "display": "block",
+        opacity: 0
+      });
+      $("#flex-overlay").fadeTo(200, options.overlay);
+
+      this.css("opacity", "0");
+      this.fadeTo(200, 1);
+    }
+  }
+
+  function updateModalSize(event){
+    if(currentModal != null && currentOptions != null){
+      renderModal.call(currentModal, currentOptions, true);
+    }
   }
 
   /*
@@ -138,11 +179,13 @@
    */
   $.fn.flexModal = function(options) {
     ensureInit();
+    initialSize = undefined;
     options = $.extend({}, defaultOptions, options);
 
     // map events
     // click .ok : handleOK
     // handle function will be invoked when button with class .ok is clicked
+    var self = this;
     $.map(options.events, function(handler, action) {
       var els = action.split(" ");
       $(els[1]).off();
@@ -154,11 +197,16 @@
       });
     });
 
-    showModal.call(this, options);
+    renderModal.call(this, options);
+
+    // store current modal
+    currentModal = this;
+    currentOptions = options;
   };
 
   $.fn.flexBindModal = function(options) {
     ensureInit();
+    initialSize = undefined;
     options = $.extend({}, defaultOptions, options);
 
     return this.each(function() {
@@ -190,10 +238,16 @@
           })
         });
 
-        showModal.call(modal, options);
+        renderModal.call(modal, options);
+        // store current modal
+        currentModal = modal;
+        currentOptions = options;
         e.preventDefault();
       });
 
     });
   }
+
+  // update modal dialog size when window resize
+  $( window ).resize(updateModalSize);
 })(jQuery);
