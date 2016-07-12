@@ -19,8 +19,9 @@
     background-color: #fff;
     padding: 30px;
     display: none;
-    max-width: 600px;
-    max-height: 300px 
+    position: absolute;
+    left: 0;
+    top: 0;
   }
   </style>
 </head>
@@ -31,18 +32,21 @@
   <button id="bottom" data-toggle="#popup">bottom</button>
   <button id="left" data-toggle="#popup">left</button>
   <div class="popup" id="popup">
-    This is a simple dialog
+    This is a simple dialog then do me a favor
     <button data-event="onClick" data-trigger="click" id="btn-ok">OK</button>
     <button data-event="onCancel" data-trigger="click" id="btn-cancel">Cancel</button>
   </div>
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
-  <script src="../flexmodal.full.js" charset="utf-8"></script>
+  <script src="../flex.modal.js" charset="utf-8"></script>
 
   <script>
   $(document).ready(function(){
     $('#show-modal').click(function(){
-      $('#popup').flexModal();
+      $('#popup').flexModal({events: {
+        'click #btn-ok': onOk,
+        'click #btn-cancel': onCancel
+      }});
     });
 
     $('#top').click(function(){
@@ -83,6 +87,7 @@
   });
   function onOk(e){
     alert('You click OK');
+    $('#left').hideFlexModal();
   }
 
   function onCancel(e){
