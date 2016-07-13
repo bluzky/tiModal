@@ -3,96 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <title>Simple modal dialog</title>
-  <style>
-  #flex-overlay {
-    position: fixed;
-    z-index:100;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: #000;
-    display: none;
-  }
-
-  .popup{
-    background-color: #fff;
-    padding: 30px;
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  </style>
+  <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-  <button id="show-modal" data-toggle="#popup">Show modal</button>
-  <button id="top" data-toggle="#popup">top</button>
-  <button id="right" data-toggle="#popup">right</button>
-  <button id="bottom" data-toggle="#popup">bottom</button>
-  <button id="left" data-toggle="#popup">left</button>
-  <div class="popup" id="popup">
-    This is a simple dialog then do me a favor
-    <button data-event="onClick" data-trigger="click" id="btn-ok">OK</button>
-    <button data-event="onCancel" data-trigger="click" id="btn-cancel">Cancel</button>
+  <button id="show-default-modal" class="btn-default">Default modal</button>
+  <button id="show-alert-modal" class="btn-default">Alert modal</button>
+  <button id="show-confirm-modal" class="btn-default">Confirm modal</button>
+  <button id="show-form-modal" class="btn-default">Form modal</button>
+
+  <div class="popup" id="default-modal">
+    Hello my friend!
+    <br/>
+    This is a default modal
+    <br/>
+    <b>Click on overlay to hide me.</b>
   </div>
+
+  <div class="popup" id="alert-modal">
+    <div class="popup-header"> Alert </div>
+    <div class="popup-content"> This is a simple modal dialog.</div>
+    <div class="popup-footer">
+      <button id="btn-ok" class="btn-default">Click me</button>
+    </div>
+  </div>
+
+  <div class="popup" id="confirm-modal">
+    <div class="popup-header"> Warning </div>
+    <div class="popup-content">
+      This action cannot be reverted.
+      Do you want to proceed?
+    </div>
+    <div class="popup-footer">
+      <button class="btn-success cancel">Bring me back</button>
+      <button class="btn-danger ok">Do it!</button>
+    </div>
+  </div>
+
+  <!-- Popup with form -->
+  <div class="popup" id="form-modal">
+    <div class="popup-header"> Welcome back </div>
+
+    <div class="popup-content">
+      <div class="form-group">
+        <input type="email" placeholder="Email" id="email"/>
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Password" id="password"/>
+      </div>
+      <div class="form-group">
+        <button class="btn-success" style="width: 100%;">Sign in</button>
+      </div>
+    </div>
+  </div>
+  <!-- end  -->
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
   <script src="../flex.modal.js" charset="utf-8"></script>
 
   <script>
   $(document).ready(function(){
-    $('#show-modal').click(function(){
-      $('#popup').flexModal({events: {
-        'click #btn-ok': onOk,
-        'click #btn-cancel': onCancel
+
+    $('#show-default-modal').click(function(){
+      $('#default-modal').flexModal();
+    });
+
+    $('#show-alert-modal').click(function(){
+      $('#alert-modal').flexModal({events: {
+        "click #btn-ok": function(e){
+          $(this).hideFlexModal();
+          alert('You click OK');
+        }
       }});
     });
 
-    $('#top').click(function(){
-      $('#popup').flexModal({
-        align: "top",
-        y_offset: 10,
+    $('#show-confirm-modal').click(function(){
+      $('#confirm-modal').flexModal({
         events: {
-          'click #btn-ok': onOk,
-          'click #btn-cancel': onCancel
+          'click .cancel': function(e){
+            $(this).hideFlexModal();
+          },
+          'click .ok': function(e){
+            $(this).hideFlexModal();
+            alert('User has been deleted!')
+          }
         }
       });
     });
 
-    $('#right').click(function(){
-      $('#popup').flexModal({align: "right", x_offset: 30,
-      events: {
-        'click #btn-ok': onOk,
-        'click #btn-cancel': onCancel
-      }});
+    $('#show-form-modal').click(function(){
+      $('#form-modal').flexModal({
+        events: {
+          'click .btn-success': function(e){
+            $(this).hideFlexModal();
+            alert('Sign in successfully!');
+          }
+        }
+      });
     });
-
-    $('#bottom').click(function(){
-      $('#popup').flexModal({align: "bottom",
-      events: {
-        'click #btn-ok': onOk,
-        'click #btn-cancel': onCancel
-      }});
-    });
-
-    $('#left').click(function(){
-      $('#popup').flexModal({align: "left",
-      events: {
-        'click #btn-ok': onOk,
-        'click #btn-cancel': onCancel
-      }});
-    });
-    //$('[data-toggle]').flexBindModal();
   });
-  function onOk(e){
-    alert('You click OK');
-    $('#left').hideFlexModal();
-  }
-
-  function onCancel(e){
-    alert('You click Cancel');
-  }
   </script>
 </body>
 </html>

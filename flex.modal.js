@@ -1,13 +1,13 @@
 /*
  * module: flexModal
- * version: 0.1
+ * version: 1.1
  * author: dzung nguyen
  * email: bluesky.1289@gmail.com
  *
  * License: WTFGL
  */
 
-(function($) {
+var FlexModal = (function($) {
   /*
   overlay: 0.5,   // transparent value for overlay layer
   events: {},     // events map for binding within dialog content
@@ -212,7 +212,6 @@
 
   });
 
-  var currentModal = null;
   $.fn.flexModal = function(options) {
     currentModal = new FlexModal(this.get(0), options);
     currentModal.render();
@@ -224,4 +223,6 @@
       currentModal = null;
     }
   }
+
+  return FlexModal;
 })(jQuery);

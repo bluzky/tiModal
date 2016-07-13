@@ -1,0 +1,111 @@
+/* REQUIRED CSS */
+#flex-overlay {
+  position: fixed;
+  z-index:100;
+  top: 0px;
+  left: 0px;
+  height:100%;
+  width:100%;
+  background: #000;
+  display: none;
+}
+
+.popup{
+  background-color: #fff;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+
+/* CUSTOM CSS*/
+*{
+  box-sizing: border-box;
+}
+
+html, input{
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 13px;
+}
+
+.popup{
+  color: #666;
+}
+
+
+button{
+  border-radius: 3px;
+  border: none;
+  padding: 6px 12px;
+  font-size: 1em;
+}
+
+
+.btn-default{
+  background: #fff;
+  border: solid 1px #bbb;
+}
+
+.btn-default:hover{
+  background-color: #CCD1D9;
+  color: #fff;
+}
+
+.btn-success, .btn-danger{
+  color: #fff;
+}
+
+.btn-success{
+  background-color: #8CC152;
+}
+
+.btn-success:hover{
+  background-color: #A0D468;
+}
+
+.btn-danger{
+  background-color: #E9573F;
+}
+
+.btn-danger:hover{
+  background-color: #FC6E51;
+}
+
+.popup-header{
+  font-size: 22px;
+  font-weight: bold;
+  padding: 10px 30px;
+  text-align: center;
+  border-bottom: solid 1px #eee;
+}
+
+.popup-content{
+  padding: 20px 30px;
+}
+
+.popup-footer{
+  padding: 10px 30px;
+  text-align: right;
+  /*border-top: solid 1px #eee;*/
+}
+
+.form-group{
+  padding: 7px 0;
+}
+
+.form-group input{
+  display: block;
+  border: solid 1px #eee;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+
+.form-group input, .form-group button{
+  width: 100%;
+  padding: 10px 15px;
+}
+
+#form-modal{
+  width: 300px;
+}
