@@ -212,17 +212,33 @@ var FlexModal = (function($) {
 
   });
 
-  $.fn.flexModal = function(options) {
-    currentModal = new FlexModal(this.get(0), options);
-    currentModal.render();
-  };
+  if($ != null){
+    $.fn.flexModal = function(options) {
+      currentModal = new FlexModal(this.get(0), options);
+      currentModal.render();
+    };
 
-  $.fn.hideFlexModal = function(){
-    if(currentModal){
+    $.fn.closeFlexModal = function(){
+      if(currentModal){
+        currentModal.hideModal();
+        currentModal = null;
+      }
+    }
+  }
+
+  function create(control, options){
+    return currentModal = new FlexModal(control, options);
+  }
+
+  function closeCurrent(){
+    if(currentModal != null){
       currentModal.hideModal();
       currentModal = null;
     }
   }
 
-  return FlexModal;
+  return {
+    create: create,
+    close: closeCurrent
+  };
 })(jQuery);

@@ -63,14 +63,17 @@
   <script>
   $(document).ready(function(){
 
-    $('#show-default-modal').click(function(){
-      $('#default-modal').flexModal();
+    var button = document.querySelector('#show-default-modal');
+    button.addEventListener('click', function(){
+      var modal = FlexModal.create('#default-modal');
+      modal.render();
     });
+    
 
     $('#show-alert-modal').click(function(){
       $('#alert-modal').flexModal({events: {
         "click #btn-ok": function(e){
-          $(this).hideFlexModal();
+          $(this).closeFlexModal();
           alert('You click OK');
         }
       }});
@@ -80,10 +83,10 @@
       $('#confirm-modal').flexModal({
         events: {
           'click .cancel': function(e){
-            $(this).hideFlexModal();
+            $(this).closeFlexModal();
           },
           'click .ok': function(e){
-            $(this).hideFlexModal();
+            $(this).closeFlexModal();
             alert('User has been deleted!')
           }
         }
@@ -94,7 +97,7 @@
       $('#form-modal').flexModal({
         events: {
           'click .btn-success': function(e){
-            $(this).hideFlexModal();
+            $(this).closeFlexModal();
             alert('Sign in successfully!');
           }
         }

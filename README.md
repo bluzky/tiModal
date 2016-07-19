@@ -1,13 +1,20 @@
 # FlexModal
-FlexModal is a lightweight Jquery plugin to create modal dialog.
-It's simple, easy to customize. You can change source code if you want.
+FlexModal is a
+
+### - lightweight
+
+### - pure javascript
+
+ to create modal dialog.
+
+It's simple, flexible and easy to customize. You can change source code if you want.
 
 
 ## How to use FlexModal
 
-### 1. Basic usage.
+### 1. CSS.
 
-#### Css class for overlay layer
+#### Add following CSS rules to your css stylesheet before using FlexModal
 ```css
 #flex-overlay {
   position: fixed;
@@ -19,9 +26,22 @@ It's simple, easy to customize. You can change source code if you want.
   background: #000;
   display: none;
 }
+
+.popup{
+  background-color: #fff;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 ```
 
-#### Html code
+
+
+### 2. Basic usage
+
+#### **Html code**
+
 ```html
 <button id="show-modal">Show modal</button>
 <div class="popup" id="popup">
@@ -29,7 +49,22 @@ It's simple, easy to customize. You can change source code if you want.
 </div>
 ```
 
+
+
 #### Bind button clicked event with a function to show modal
+
+**Pure Javascript**
+
+```javascript
+var button = document.querySelector('#show-modal');
+button.addEventListener('click', function(){
+  var modal = new FlexModal('#popup');
+  modal.render();
+});
+```
+
+**Using jquery**
+
 ```js
 $(document).ready(function(){
   $('#show-modal').click(function(){
@@ -38,49 +73,11 @@ $(document).ready(function(){
 });
 ```
 
-### 2. Binding event on dialog using htm attribute
-#### add css class as above
-#### Html code
-```html
-<button id="show-modal" data-toggle="#popup">Show modal</button>
-<div class="popup" id="popup">
-  This is a modal with button
-  <button data-event="onOk" data-trigger="click">OK</button>
-  <button data-event="onCancel" data-trigger="click">Cancel</button>
-</div>
-
-```
-
-- `data-toggle="#popup"` : this is used if you want flexModal automatically bind action element with a modal when invoke function `$('[data-toggle]').flexBindModal();`
-
-- For element you want to listen to its events, specify two attributes:
-    - `data-trigger`: name of event you want to handle: click, hover,...
-    - `data-event`: name of function to handle this event
-
-#### Javascript
-```js
-$(document).ready(function(){
-  $('[data-toggle]').flexBindModal();
-});
-function onOk(e){
-  alert('You click OK button');
-}
-
-function onCancel(e){
-  alert('You click Cancel button');
-}
-```
-
-**Notes:**
-
-Current **flexModal** only support listening to 1 event for each element on modal dialog.
-
-If you want to listen to more than one event for an element, you can customize options as below.
 
 
 ### 3. Binding event using code
-#### add Css class as in #1
-#### Html code
+
+#### **Html code**
 ```html
 <button id="show-modal">Show modal</button>
 <div class="popup" id="popup">
@@ -90,13 +87,50 @@ If you want to listen to more than one event for an element, you can customize o
 </div>
 ```
 
-#### Javascript binding event
-```js
+
+
+#### **PureJavascript**
+
+```javascript
+
+modal.render();
 function onOk(e){
+  FlexModal.close();
   alert('You click OK button');
 }
 
 function onCancel(e){
+  FlexModal.close();
+  alert('You click Cancel button');
+}
+
+var button = document.querySelector('#show-modal');
+button.addEventListener('click', function(){
+  var modal = new FlexModal(
+                              '#popup',
+                              {
+                                  events:{
+                                      'click #ok': onOk, // bind click event on button #ok with function onOk
+                                      'click .cancel': onCancel // bind click event on button with class .cancel  with function onCancel
+                                  }
+                              }
+                            );
+  modal.render();
+});
+```
+
+
+
+**Using Jquery**
+
+```js
+function onOk(e){
+  $(this).closeFlexModal();
+  alert('You click OK button');
+}
+
+function onCancel(e){
+  $(this).closeFlexModal();
   alert('You click Cancel button');
 }
 
@@ -113,4 +147,59 @@ $(document).ready(function(){
 ```
 
 
-## 2. All possible options
+
+### 4. API
+
+#### 4.1 Javascript
+
+- Create modal
+
+  `FlexModal.create(control, options)`
+
+  - control: Dom Node or selector are accepted
+  - options: see below
+
+- Hide current modal
+
+  `FlexModal.close()`
+
+#### 4.2 Jquery
+
+- Create modal
+
+  `.flexModal(options)`
+
+- Hide current modal
+
+  `.closeFlexModal()`
+
+
+
+### 5. All possible options
+
+```javascript
+	overlay: 0.5,
+    events: {},
+    modal: false,
+    modalPosition: function(modal){
+      var width = modal.offsetWidth;
+      var height = modal.offsetHeight;
+      var position = {};
+      position["top"] = "50%";
+      position["left"] = "50%";
+      position["margin-left"] = (-width/2) + "px";
+      position["margin-top"] = (-height/2) + "px";
+      return position;
+    }
+```
+
+| **option**      | **type** | **default** | **description**                          |
+| --------------- | -------- | ----------- | ---------------------------------------- |
+| `overlay`       | number   | 0.5         | The opacity of overlay layer             |
+| `event`         | object   | {}          | Map of event will be bind for this modal. **format**: `"event selector": callbackFunction` |
+| `modal`         | boolean  | false       | `false`: close modal when click on the overlay   `true`: only close modal when call close modal API |
+| `modalPosition` | function |             | Function which return custom modal position. By default modal will be display at the center of the page. |
+|                 |          |             |                                          |
+
+
+
