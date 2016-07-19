@@ -9,6 +9,8 @@ FlexModal is a
 
 It's simple, flexible and easy to customize. You can change source code if you want.
 
+**[Download](https://github.com/bluzky/flexModal/releases/tag/v1.3)**
+
 
 ## How to use FlexModal
 
