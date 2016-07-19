@@ -8,11 +8,6 @@
  */
 
 var FlexModal = (function($) {
-  /*
-  overlay: 0.5,   // transparent value for overlay layer
-  events: {},     // events map for binding within dialog content
-  modal: false,   // show as a modal dialog ( does not close when click outside of dialog)
-   */
   var defaultOptions = {
     overlay: 0.5,
     events: {},

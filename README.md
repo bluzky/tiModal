@@ -5,7 +5,7 @@ FlexModal is a
 
 ### - pure javascript
 
- to create modal dialog.
+ library to create modal dialog.
 
 It's simple, flexible and easy to customize. You can change source code if you want.
 
@@ -58,7 +58,7 @@ It's simple, flexible and easy to customize. You can change source code if you w
 ```javascript
 var button = document.querySelector('#show-modal');
 button.addEventListener('click', function(){
-  var modal = new FlexModal('#popup');
+  var modal = FlexModal.create('#popup');
   modal.render();
 });
 ```
@@ -200,6 +200,3 @@ $(document).ready(function(){
 | `modal`         | boolean  | false       | `false`: close modal when click on the overlay   `true`: only close modal when call close modal API |
 | `modalPosition` | function |             | Function which return custom modal position. By default modal will be display at the center of the page. |
 |                 |          |             |                                          |
-
-
-
