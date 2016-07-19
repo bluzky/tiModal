@@ -106,7 +106,7 @@ function onCancel(e){
 
 var button = document.querySelector('#show-modal');
 button.addEventListener('click', function(){
-  var modal = new FlexModal(
+  var modal =  FlexModal.create(
                               '#popup',
                               {
                                   events:{
