@@ -1,21 +1,35 @@
 /* REQUIRED CSS */
-#flex-overlay {
+.flex-overlay {
   position: fixed;
   z-index:100;
   top: 0px;
   left: 0px;
   height:100%;
   width:100%;
-  background: #000;
   display: none;
+  text-align: center;
+  overflow-y: auto;
 }
 
-.popup{
-  background-color: #fff;
-  display: none;
+.popup-wrapper {
+  margin: 20px auto;
+  display: inline-block;
+  background: #fff;
+  border-radius: 3px;
+  padding: 30px;
+  text-align: left;
+}
+
+.popup-content-wrapper .close-btn {
   position: absolute;
-  left: 0;
-  top: 0;
+  top: 20px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  z-index: 20;
+  padding: 0;
 }
 
 
@@ -29,9 +43,6 @@ html, input{
   font-size: 13px;
 }
 
-.popup{
-  color: #666;
-}
 
 
 button{
@@ -106,6 +117,6 @@ button{
   padding: 10px 15px;
 }
 
-#form-modal{
+#form-modal .popup-wrapper{
   width: 300px;
 }

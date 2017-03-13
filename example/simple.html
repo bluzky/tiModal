@@ -11,97 +11,105 @@
   <button id="show-confirm-modal" class="btn-default">Confirm modal</button>
   <button id="show-form-modal" class="btn-default">Form modal</button>
 
-  <div class="popup" id="default-modal">
-    Hello my friend!
-    <br/>
-    This is a default modal
-    <br/>
-    <b>Click on overlay to hide me.</b>
-  </div>
-
-  <div class="popup" id="alert-modal">
-    <div class="popup-header"> Alert </div>
-    <div class="popup-content"> This is a simple modal dialog.</div>
-    <div class="popup-footer">
-      <button id="btn-ok" class="btn-default">Click me</button>
+  <script type="text" id="default-modal">
+    <div class="popup-wrapper">
+      Hello my friend!
+      <br/>
+      This is a default modal
+      <br/>
+      <b>Click on overlay to hide me.</b>
     </div>
-  </div>
+  </script>
 
-  <div class="popup" id="confirm-modal">
-    <div class="popup-header"> Warning </div>
-    <div class="popup-content">
-      This action cannot be reverted.
-      Do you want to proceed?
-    </div>
-    <div class="popup-footer">
-      <button class="btn-success cancel">Bring me back</button>
-      <button class="btn-danger ok">Do it!</button>
-    </div>
-  </div>
-
-  <!-- Popup with form -->
-  <div class="popup" id="form-modal">
-    <div class="popup-header"> Welcome back </div>
-
-    <div class="popup-content">
-      <div class="form-group">
-        <input type="email" placeholder="Email" id="email"/>
-      </div>
-      <div class="form-group">
-        <input type="password" placeholder="Password" id="password"/>
-      </div>
-      <div class="form-group">
-        <button class="btn-success" style="width: 100%;">Sign in</button>
+  <script type="text" id="alert-modal">
+    <div class="popup-wrapper">
+      <div class="popup-header"> Alert </div>
+      <div class="popup-content"> This is a simple modal dialog.</div>
+      <div class="popup-footer">
+        <button data-modal-togge="close" class="btn-default">Click me</button>
       </div>
     </div>
-  </div>
+  </script>
+
+  <script type="text" id="confirm-modal">
+    <div class="popup-wrapper">
+      <div class="popup-header"> Warning </div>
+      <div class="popup-content">
+        This action cannot be reverted.
+        Do you want to proceed?
+      </div>
+      <div class="popup-footer">
+        <button class="btn-success cancel">Bring me back</button>
+        <button class="btn-danger ok">Do it!</button>
+      </div>
+    </div>
+  </script>
+
+  <script type="text" id="form-modal">
+    <div class="popup-wrapper" style="min-width: 400px;">
+      <div class="popup-header"> Welcome back </div>
+
+      <div class="popup-content">
+        <div class="form-group">
+          <input type="email" placeholder="Email" id="email"/>
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Password" id="password"/>
+        </div>
+        <div class="form-group">
+          <button class="btn-success" style="width: 100%;">Sign in</button>
+        </div>
+      </div>
+    </div>
+  </script>
   <!-- end  -->
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
-  <script src="../flex.modal.js" charset="utf-8"></script>
+  <script src="flex.modal.js" charset="utf-8"></script>
 
   <script>
   $(document).ready(function(){
 
     var button = document.querySelector('#show-default-modal');
     button.addEventListener('click', function(){
-      var modal = FlexModal.create('#default-modal');
-      modal.render();
+      var html = document.getElementById("default-modal").innerHTML;
+      var modal = fModal.create(html)
+                        .show();
     });
-    
+
 
     $('#show-alert-modal').click(function(){
-      $('#alert-modal').flexModal({events: {
-        "click #btn-ok": function(e){
-          $(this).closeFlexModal();
-          alert('You click OK');
-        }
-      }});
+      var html = $('#alert-modal').html();
+      fModal.create(html).show();
     });
 
     $('#show-confirm-modal').click(function(){
-      $('#confirm-modal').flexModal({
+
+      var html = $('#confirm-modal').html();
+      fModal.create(html, {
         events: {
           'click .cancel': function(e){
-            $(this).closeFlexModal();
+            this.close();
           },
           'click .ok': function(e){
-            $(this).closeFlexModal();
+            this.close();
             alert('User has been deleted!')
           }
         }
-      });
+      }).show();
     });
 
     $('#show-form-modal').click(function(){
-      $('#form-modal').flexModal({
+      var html = $('#form-modal').html();
+      fModal.create(html,{
         events: {
           'click .btn-success': function(e){
-            $(this).closeFlexModal();
+            this.close();
             alert('Sign in successfully!');
-          }
-        }
-      });
+          },
+        },
+        modal: true
+      }).show();
     });
   });
   </script>
