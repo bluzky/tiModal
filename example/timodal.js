@@ -1,13 +1,13 @@
 /*
- * module: flexModal
- * version: 1.1
+ * module: tiModal
+ * version: 1.2
  * author: dzung nguyen
  * email: bluesky.1289@gmail.com
  *
  * License: WTFGL
  */
 
-var fModal = (function($) {
+var tiModal = (function() {
   var defaultOptions = {
     backgroundColor: "rgba(0,0,0,0.5)",
     events: {},
@@ -18,6 +18,7 @@ var fModal = (function($) {
     "click [data-modal-togge=close]": function(e){this.close();}
   };
 
+  // list of all created modal
   var activeModals = [];
 
   function extend(obj) {
@@ -29,15 +30,14 @@ var fModal = (function($) {
       return obj;
   };
 
-
-  var FlexModal = function(html, options){
+  // TiModal class definition
+  var TiModal = function(html, options){
     options = options || {};
     this.options = extend({}, defaultOptions, options);
 
-
     function createOverlay() {
         var overlay = document.createElement("div");
-        overlay.className = 'flex-overlay';
+        overlay.className = 'ti-overlay';
         overlay.style["backgroundColor"] = "" + this.options.backgroundColor;
         document.body.appendChild(overlay);
 
@@ -55,7 +55,7 @@ var fModal = (function($) {
     this._bindEvents(events);
   }
 
-  FlexModal.prototype._bindEvents = function(eventMap){
+  TiModal.prototype._bindEvents = function(eventMap){
     var self = this;
     Object.keys(eventMap).map(function(key, index) {
       var parts = key.split(" ");
@@ -77,7 +77,7 @@ var fModal = (function($) {
     }
   }
 
-  FlexModal.prototype._bindEvent = function(elements, eventName, callback){
+  TiModal.prototype._bindEvent = function(elements, eventName, callback){
     if(elements.length == undefined){
       elements.addEventListener(eventName, callback);
     }else{
@@ -87,19 +87,19 @@ var fModal = (function($) {
     }
   }
 
-  FlexModal.prototype.show = function(){
+  TiModal.prototype.show = function(){
     this.overlay.style["display"] = "block";
   }
 
-  FlexModal.prototype.hide = function(){
+  TiModal.prototype.hide = function(){
     this.overlay.style["display"] = "none";
   }
 
-  FlexModal.prototype.dispose = function(){
+  TiModal.prototype.dispose = function(){
     this.overlay.parentNode.removeChild(this.overlay);
   }
 
-  FlexModal.prototype.close = function(){
+  TiModal.prototype.close = function(){
     var index = activeModals.indexOf(this);
     if(index >= 0){
       activeModals.splice(index, 1);
@@ -107,14 +107,14 @@ var fModal = (function($) {
     this.dispose();
   }
 
-
-
+  // create new modal instance
   function create(html, options){
-    var modal = new FlexModal(html, options);
+    var modal = new TiModal(html, options);
     activeModals.push(modal);
     return modal;
   }
 
+  // close last opened modal
   function closeCurrent(){
     if(activeModals.length > 0){
       var index = activeModals.length - 1;
@@ -123,11 +123,11 @@ var fModal = (function($) {
     }
   }
 
+  // close and clean all modal
   function closeAll(){
     for(var i = activeModals.length - 1; i >= 0; i-- ){
       activeModals[i].dispose();
     }
-
     activeModals = [];
   }
 

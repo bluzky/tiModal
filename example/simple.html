@@ -65,7 +65,7 @@
   <!-- end  -->
 
   <script src="js/jquery-2.1.4.min.js" charset="utf-8"></script>
-  <script src="flex.modal.js" charset="utf-8"></script>
+  <script src="timodal.js" charset="utf-8"></script>
 
   <script>
   $(document).ready(function(){
@@ -73,20 +73,20 @@
     var button = document.querySelector('#show-default-modal');
     button.addEventListener('click', function(){
       var html = document.getElementById("default-modal").innerHTML;
-      var modal = fModal.create(html)
+      var modal = tiModal.create(html)
                         .show();
     });
 
 
     $('#show-alert-modal').click(function(){
       var html = $('#alert-modal').html();
-      fModal.create(html).show();
+      tiModal.create(html).show();
     });
 
     $('#show-confirm-modal').click(function(){
 
       var html = $('#confirm-modal').html();
-      fModal.create(html, {
+      tiModal.create(html, {
         events: {
           'click .cancel': function(e){
             this.close();
@@ -101,7 +101,7 @@
 
     $('#show-form-modal').click(function(){
       var html = $('#form-modal').html();
-      fModal.create(html,{
+      tiModal.create(html,{
         events: {
           'click .btn-success': function(e){
             this.close();
