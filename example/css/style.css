@@ -1,5 +1,5 @@
 /* REQUIRED CSS */
-.ti-overlay {
+.tioverlay {
   position: fixed;
   z-index:100;
   top: 0px;

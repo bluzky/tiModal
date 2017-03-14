@@ -15,7 +15,7 @@ var tiModal = (function() {
   };
 
   var defaultEvents = {
-    "click [data-modal-togge=close]": function(e){this.close();}
+    "click [data-modal-toggle=close]": function(e){this.close();}
   };
 
   // list of all created modal
@@ -37,7 +37,7 @@ var tiModal = (function() {
 
     function createOverlay() {
         var overlay = document.createElement("div");
-        overlay.className = 'ti-overlay';
+        overlay.className = 'tioverlay';
         overlay.style["backgroundColor"] = "" + this.options.backgroundColor;
         document.body.appendChild(overlay);
 
