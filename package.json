@@ -1,0 +1,29 @@
+{
+  "name": "timodal",
+  "version": "1.0.0",
+  "description": "A simple modal dialog without dependencies",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluzky/flexModal.git"
+  },
+  "author": "Dung Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bluzky/flexModal/issues"
+  },
+  "homepage": "https://github.com/bluzky/flexModal#readme",
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  },
+  "dependencies": {
+    "uglifyjs-webpack-plugin": "^0.4.6"
+  }
+}
