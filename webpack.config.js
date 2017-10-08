@@ -6,7 +6,7 @@ module.exports = {
   output: {
     filename: 'timodal.min.js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: "window",
+    libraryTarget: "umd",
     library: "tiModal",
     umdNamedDefine: true
   },
