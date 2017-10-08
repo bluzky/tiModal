@@ -9,6 +9,7 @@ TiModal is a
 
 It's simple, flexible and easy to customize. You can change source code if you want.
 
+## **[Demo](https://bluzky.github.io/projects/timodal/example.html)**
 ## **[Download](https://github.com/bluzky/TiModal/releases/tag/v2.1)**
 
 
